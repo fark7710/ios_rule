@@ -1,0 +1,11 @@
+#支付宝去广告域名
+host-keyword, aliapp.org, reject
+host, gm.mmstat.com, reject
+host, api-mayi.django.t.taobao.com, reject
+host, guide-acs.m.taobao.com, reject
+host, mass.alipay.com, reject
+host, entpsz.alipay.com, reject
+host, mobilegw.alipay.com, reject
+host, loggw.alipay.com, reject
+host, mdap.alipay.com, reject
+host, mdn.alipay.com, reject
