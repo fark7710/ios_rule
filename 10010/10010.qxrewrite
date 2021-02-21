@@ -1,0 +1,2 @@
+#10010
+^https?:\/\/(m|pushservice|img|m1\.img)\.client\.10010\.com+\S+(uniAdmsInterface|mobileService\/query|angel|small_video|getDataFromService|finderInterface|DateTotle|Game|smartwisdomCommon|HeadUserCard|getNewsList|Recommend|pushweb|stprototype|smart|differentNetAdv) url reject-200
