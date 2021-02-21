@@ -1,0 +1,14 @@
+#统计数据
+^https?:\/\/appnavi\.baidu\.com\/statistics\/send url reject-200
+#主动dns检查
+^https?:\/\/httpdns\.baidubce\.com+\S+dnsproxy url reject-dict
+#个人中心广告
+^https?:\/\/map-mobile-lbsapp\.cdn\.bcebos\.com\/Universal url reject-200
+#禁止对客户端进行个性化广告插入
+^https?:\/\/newclient\.map\.baidu\.com+\S+(noticebar|newvector|crossmarketing|UpdateInfo|imap\/ulog|qt=bar|qt=hw|qt=ad|dsync) url reject-200
+#忘了，不是啥好东西
+^https?:\/\/map\.baidu\.com\/zt url reject-200
+#网络检查
+^https?:\/\/integralwall\.baidu\.com\/integralwall\/interact\/check url reject
+
+hostname = *.baidu.com, *.bcebos.com, *.bdimg.com, *.bdstatic.com, 180.76.76.200
