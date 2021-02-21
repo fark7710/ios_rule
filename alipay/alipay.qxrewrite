@@ -1,0 +1,7 @@
+#去广告和禁止加载乱七八糟的插件
+^https?:\/\/(gw|mdn)\.alicdn\.com+\S+(imgextra|tps) url reject
+^https?:\/\/render\.alipay\.com+\S+jyjfuw url reject-200
+#禁止加载图片（测试）
+^https?:\/\/(gw|mdn|tfs|os)\.alipayobjects\.com+\S+(\.amr|img|styles|promo|cms|rmsportal|bmw-prod|yaoyy|tracert|tracker|logConfig|pkgcore|afts\/file|mobilepep) url reject
+
+hostname = *.alipayobjects.com, render.alipay.com, *.taobao.com, *.alicdn.com
