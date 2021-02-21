@@ -1,0 +1,12 @@
+#京东主页
+^https?:\/\/api\.m\.jd\.com+\S+welcomeHome url echo-response text/plain;charset=utf-8 echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/jd/homepage?token=AQRLFOOVSA7PJMQBTR64WITAHOKOI
+#去除商品详情页直播浮窗（测试）
+^https?:\/\/api\.m\.jd\.com+\S+wareBusiness url response-body "liveInfo+[\s\S]+"eventParam" response-body "eventParam"
+#个人中心
+^https?:\/\/api\.m\.jd\.com+\S+personinfoBusiness url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/jd/personal?token=AQRLFOJ24TZ6J7L7HZRN4ILAHOKK2
+#未读通知红点去除
+^https?:\/\/msg\.m\.jd\.com+\S+msgEntranceV710 url response-body [\s\S]+ response-body {"code":"0","ddAdd":"1","num":0,"otherAppAdd":"1","redPoint":false}
+#推荐系统和统计去除
+^https?:\/\/\S+\.jd\.com+\S+(searchBoxWord|Recommend|CustomSurface|serverConfig|newAppCenterInfo|crash|getReactNativeVersion|start|newPurchaseWareCheck|getHotWords|asynInteface) url reject-200
+
+hostname = *.jd.com,*.360buyimg.com
