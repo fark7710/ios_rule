@@ -1,0 +1,6 @@
+#京东数据统计去除
+host, ex.m.jd.com, reject
+host, perf.m.jd.com, reject
+host, blackhole.m.jd.com, reject
+host, firevent.jd.com, reject
+host, uranus.jd.com, reject
