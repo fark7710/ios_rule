@@ -1,0 +1,18 @@
+#百度地图去广告域名
+host, integralwall.baidu.com, reject
+host, itsdata.map.baidu.com, reject
+host, loc.map.baidu.com, reject
+host, ulogimap.baidu.com, reject
+host, newvector.map.baidu.com, reject
+host, sofire.baidu.com, reject
+host, ofloc.map.baidu.com, reject
+host, api.tuisong.baidu.com, reject
+host, hmma.baidu.com, reject
+host, nsclick.baidu.com, reject
+#个性化语音包
+host, bailingniao2.baidu.com, reject
+host, lbsnavi.cdn.bcebos.com, reject
+host, mapcarowner-gz.cdn.bcebos.com, reject
+host, carowner.baidu.com, reject
+host, userimg.qunar.com, reject
+host, lc.map.baidu.com, reject
