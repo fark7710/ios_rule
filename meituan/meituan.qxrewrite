@@ -1,0 +1,20 @@
+#美团外卖去广告
+^https?:\/\/(wmapi|wmapi-mt)\.meituan\.com+\S+(functions|marketing|mvpcoupon|tabs|startpicture|loadInfo|update|recommend) url reject-200
+#简化外卖首页
+^https?:\/\/wmapi-mt\.meituan\.com+\S+rcmdboard url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/meituan/wmhomepage?token=AQRLFOKF4XCMCIC77NFUX2LAHOH3U
+#美团软件底栏简化
+^https?:\/\/gaea\.meituan\.com+\S+indexTab url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/meituan/indexTab?token=AQRLFOJOU45IYS7GOWF74ALAHOHJI
+#首页优化
+^https?:\/\/apimobile\.meituan\.com+\S+showStyle url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/meituan/homepage?token=AQRLFOOMWTWQDIEYLFJOYOTAHOIDA
+#个人中心
+^https?:\/\/gaea\.meituan\.com+\S+homemine url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/meituan/personal?token=AQRLFOPHZWGFLL6AZZLKU4LAHOIKM
+#优惠卷边角红包
+^https?:\/\/p[0-9]\.meituan\.net+\S+(coupon|bizad) url reject-200
+#广告全屏弹窗
+^https?:\/\/gaea\.meituan\.com+\S+(indexWindow|indexScan|feed|guide) url reject-dict
+#推荐系统和统计信息去除
+^https?:\/\/apimobile\.meituan\.com+\S+(recommend|collect|indexTab|hotword|checkUpdate) url reject-200
+#美团自行车去广告
+^https?:\/\/bike\.meituan\.com+\S+(ads-hermes|recommend) url reject-200
+
+hostname = *.meituan.com, *.meituan.net, *.dianping.com, *.sankuai.com, *.gtimg.com
