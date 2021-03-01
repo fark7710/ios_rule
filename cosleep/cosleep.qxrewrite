@@ -1,9 +1,9 @@
 #去除发现页明星入口
-^https?:\/\/api\.psy-1\.com+\S+complex url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/cosleep/complex?token=AQRLFOKUJZULYJLVKPBASTTAHOCK4
+^https?:\/\/api\.psy-1\.com+\S+complex url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/cosleep/complex?token=AQRLFOLEFEMZFZXMTCYPDR3AIWBDS
 #去除首页大卡片多余卡片
-^https?:\/\/api\.psy-1\.com+\S+bigcard url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/cosleep/bigcard?token=AQRLFOLC5HVPHITJD4QEKNTAHOCOI
+^https?:\/\/api\.psy-1\.com+\S+bigcard url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/cosleep/bigcard?token=AQRLFOIQMLURCLAELVXATIDAIWBDC
 #虚假的vip
-^https?:\/\/api\.psy-1\.com+\S+info url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/cosleep/vip?token=AQRLFOKRTYYQODMK2Z6JZF3AHOCMY
+^https?:\/\/api\.psy-1\.com+\S+info url echo-response application/json echo-response https://raw.githubusercontent.com/fark7710/ios_rule/main/cosleep/vip?token=AQRLFOKSZD4DU3Z5MFM7P3DAIWBDG
 #去除首页推荐位不喜欢的推荐项
 ^https?:\/\/api\.psy-1\.com\/cosleep\/newborn+\S+(idols|broadcasts|assessments)\/rec|(vips\/picks) url reject-200
 #去除广告和统计数据
