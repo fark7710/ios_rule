@@ -1,0 +1,404 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+<title>福建八闽健康码</title>
+<meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+<meta http-equiv="X-UA-Compatible" content="IE=9" />
+<meta name="renderer" content="webkit" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+
+
+
+
+
+
+<link href="https://mztapp.fujian.gov.cn:8200/fjyqhm/plugins/mui/css/mui.min.css?lxhcVersion=1.0" rel="stylesheet" />
+<link href="https://mztapp.fujian.gov.cn:8200/fjyqhm/plugins/mui/css//mui.picker.min.css?lxhcVersion=1.0"
+	rel="stylesheet" />
+<link href="https://mztapp.fujian.gov.cn:8200/fjyqhm/plugins/mui/css/icons-extra.css?lxhcVersion=1.0"
+	rel="stylesheet" />
+<link href="https://mztapp.fujian.gov.cn:8200/fjyqhm/plugins/mui/css/iconfont.css?lxhcVersion=1.0" rel="stylesheet" />
+<link href="https://mztapp.fujian.gov.cn:8200/fjyqhm/meui/css/meui3.0.css?lxhcVersion=1.0" rel="stylesheet" />
+
+<script type="text/javascript"
+	src="https://mztapp.fujian.gov.cn:8200/fjyqhm/plugins/art-template/template-web.js?lxhcVersion=1.0"></script>
+<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/plugins/mui/js/mui.min.js?lxhcVersion=1.0"></script>
+<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/plugins/mui/js/mui.picker.min.js?lxhcVersion=1.0"></script>
+<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/zepto.js?lxhcVersion=1.0"></script>
+
+<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/plugins/flexible/flexible.min.js?lxhcVersion=1.0"></script>
+
+<script type="text/javascript">
+	var rootPath = "https://mztapp.fujian.gov.cn:8200/fjyqhm";
+	var EVECOM_USER_ID = "null";
+	var EVECOM_USER_SESSIONID = "null";
+	var isAlipayClient = "0";
+</script>
+<!-- 根据客户端判断引入阿里小程序、微信小程序、闽政通app -->
+
+
+
+
+
+	<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/cordova.js?lxhcVersion=1.0"></script>
+	<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/bingotouch.js?lxhcVersion=1.0"></script>
+	<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/jsencrypt.js?lxhcVersion=1.0"></script>
+	<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/jmtplugins.js?lxhcVersion=1.0"></script>
+
+<script type="text/javascript"
+	src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/common/js/alipayjs.js?lxhcVersion=1.0"></script>
+
+<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/evevalidate.js?lxhcVersion=1.0"></script>
+<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/mobileUtil.js?lxhcVersion=1.0"></script>
+<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/dataformatterUtil.js?lxhcVersion=1.0"></script>
+<style>
+.divbackground {
+	z-index: 999;
+	pointer-events: none;
+	text-align: center;
+	opacity: 0.1;
+	color: #000;
+	position: absolute;
+	font-size: 14px;
+	transform: rotate(-30deg);
+	-ms-transform: rotate(-30deg);
+	-o-tranform: rotate(-30deg);
+	-webkit-transform: rotate(-30deg);
+	-moz-transform: rotate(-30deg);
+	filter: progid:DXImageTransform.Microsoft.Alpha(opacity=10) progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand',
+		M11=0.866025404, M12=0.5, M21=-0.5, M22=0.866025404);
+}
+
+* {
+	touch-action: pan-y;
+}
+</style>
+
+<script>
+ 	var userId="";
+	var userToken="";
+	var userIdCard="";
+	var userName="";
+	var countyCode = "";
+	var cityCode = "";
+	var sfCode = "";
+	var longitude = "";
+	var latitude = "";
+	var user_type = "";
+	var initFunction = "init";
+	var isSetBackGround = "";
+	try {
+		app.page.onLoad = function() {
+			//获取用户当前位置
+			app.link.getCurrentCity(function(result) {
+				var pos = JSON.parse(result);
+				cityCode = pos.cityCode;
+				countyCode = pos.countyCode;
+				sfCode = pos.cityCode.substring(0,2) + "0000";
+				longitude = pos.longitude;
+				latitude = pos.latitude;
+			}, function(msg) {
+				mui.alert("获取当前用户区域：\n" + JSON.stringify(msg));
+			})
+			//获取用户信息
+			app.link.getLoginInfo(function(result) {
+				var userinfo = result;
+				var encrypt = new JSEncrypt();
+				encrypt.setPrivateKey(keyUtil.getPrivateKey());
+				userId = encrypt.decrypt(userinfo.userId);
+				userToken = encrypt.decrypt(userinfo.USER_TOKEN);
+				userName = encrypt.decrypt(userinfo.user_name);
+				userIdCard = encrypt.decrypt(userinfo.cardNum);
+				user_type = encrypt.decrypt(userinfo.user_type);
+				if (userId) {					
+					if(initFunction){
+						var initfun = eval(initFunction);
+						initfun();
+					}
+	                if(isSetBackGround && isSetBackGround=="1"){
+						userName = encrypt.decrypt(userinfo.name);
+						var userTel = encrypt.decrypt(userinfo.mobile);
+						setBackGround("", userName + userTel.substr(userTel.length - 4, 4));
+	                }
+				} else {
+					confirmError();
+				}
+			}, function(result) {
+				confirmError();
+			});
+			
+			//调整页面；亮度
+			var param = {};
+			param.brightness = 0.88;
+			app.link.adjustBrightness(param);
+			
+			//首页四个入口监听
+			mui(".mui-content").on('tap', '#qcc', function(){
+				if (isAndroid()) {//Android
+					var param = {};
+				    param.exit = 1;
+				    param.url = "mztapp://busCard";
+				    app.link.goOpenNewPageOrExit(param);			
+				} else {//iOS
+					window.location.href='mztapp://busCard';
+				}			
+			})
+		
+			//分享功能
+			mui(".eui-homeTop").on('tap', "#indexwyfx", function(){
+				app.link.shareWebPage("福建八闽健康码", "汇聚权威信息，回应社会关切，坚决打赢疫情防控阻击战！",
+					"https://mztapp.fujian.gov.cn:8190/mztAppWeb/logo.jpg",
+					"https://mztapp.fujian.gov.cn:8190/mztAppWeb/app/about/download.jsp?channelId=6",
+					function(msg) {
+						mui.alert("分享成功", "提示", function() {});
+					}, function(msg) {
+						mui.alert("分享失败", "提示", function() {});
+					})
+			});
+		}
+	} catch (e) {}
+
+	function confirmError(msg) {
+		if (!msg) {
+			msg = "获取用户信息失败，请确认已登录，并已实名认证";
+		}
+		var btnArray = [ '重试', '登录' ];
+		mui.confirm(msg, '提示', btnArray, function(e) {
+			if (e.index == 1) {
+				var param = {};
+				param.isReturnPage = true;
+				app.link.goLogin(function(successMsg) {
+					//alert("登录成功" + successMsg)
+					window.location.reload();
+				}, function(errorMsg) {
+					//mui.alert(errorMsg)
+				}, param);
+			} else {
+				//app.refresh();
+				window.location.reload();
+			}
+		});
+		return;
+	}
+
+
+	function getBackGroundHtml(text, top, width, left) {
+		var html = '<div class="divbackground" style="width:' + width + '%;left: ' + left + '%;top:' + top + 'px;">' + text + '<br /></div>';
+		return html;
+	}
+
+	function setBackGround(id, text) {
+		var screenHeight = $("#" + id).height();
+		var step = 100 / 480 * screenHeight;
+		for (var i = 0; i <= parseInt(screenHeight / step); i++) {
+			var html = getBackGroundHtml(text, parseInt(step * (i)), 50, 0) + getBackGroundHtml(text, parseInt(step * (i)), 50, 50);
+			$("body").append(html);
+		}
+	}
+	
+	// 判断安卓
+	function isAndroid() {
+		var u = navigator.userAgent;
+		if (u.indexOf("Android") > -1 || u.indexOf("Linux") > -1) {
+			return true;
+		}
+		return false;
+	}
+	
+	//记录行为日志
+	function recordLog(){
+		var BEHAVIORLOG_APPSYS = "1";
+		if(isAndroid()){
+			BEHAVIORLOG_APPSYS = "2";
+		}
+		var POSTPARAM_JSON = {
+			INVOKESERVICE_CODE: "048",
+			INVOKECALLER_CODE: "2c9bbe5a7018a6580170321f802c40562c9bbe5a7018a658",
+			BEHAVIORLOG_TYPE : "3",
+			BEHAVIORLOG_SRC : "1",
+			BEHAVIORLOG_ITEMID : "mztapp_jkmglyb",
+			BEHAVIORLOG_ITEMNAME : "健康码关联医保",
+			BEHAVIORLOG_APPSYS : BEHAVIORLOG_APPSYS,
+			BEHAVIORLOG_USERID : userId,
+			USER_ID: userId,
+			USER_TOKEN: userToken,
+			BEHAVIORLOG_SFBM: sfCode,
+			BEHAVIORLOG_CSBM: cityCode,
+			BEHAVIORLOG_QXBM: countyCode
+		}
+		POSTPARAM_JSON = JSON.stringify(POSTPARAM_JSON);
+		jQuery.ajax({
+			url : "https://mztapp.fujian.gov.cn:8303/dataset/AppSerController/invokeservice.do",
+			data:{
+				POSTPARAM_JSON: POSTPARAM_JSON
+			},
+			success: function(resultData){
+		    },
+		    error: function(resultData){
+		    }
+		})
+	}
+</script>
+<link rel="stylesheet" href="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/bmjkm/css/styleHome.css?lxhcVersion=1.1">
+
+</head>
+
+<body class="eui-homeBg">
+	<div class="mui-content">
+		<div class="eui-homeTop">
+			<h3>
+				<img src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/bmjkm/imagesHome/logo.png" class="logo"> 福建八闽健康码
+				<a id="showUserInfo" onclick="showUserInfo()" class="hidden"></a>
+			</h3>
+			<p>姓名：<span id="tipName"></span></p>
+			<p>身份证号：<span id="tipIdcard"></span></p>
+			<a class="share" id="indexwyfx">我要分享</a>
+		</div>
+		<!-- 健康码 -->
+		<div class="eui-jkmCard">
+			<!-- 无二维码 -->
+			<div class="eui-showJkm" style="display: none;">
+				<h4 style="display:none;" id="okP">健康状况核验<b class="green">未见异常(绿码)</b></h4>
+				<h4 style="display:none;" id="noP">健康状况核验<b class="red">存在异常(橙码)</b> <b onclick="ckyy()" style="color: #02A7F0;">查看原因</b></h4>
+				<div style="display:none;" class="jcxx hsjcjg"></div>
+				<div class="time" id="otime"></div>
+				<div class="wem">
+					<div id="newQrcode" style="width: 100%; height: 100%;"></div>
+				</div>
+				<h3 id="randCode"></h3>
+				<a onclick="addDesktop()" class="btn">创建桌面快捷方式</a>
+			</div>
+			<!-- 有二维码 -->
+			<div class="eui-showJkm" style="display: none;">
+				<h4 style="display:none;" id="okP" >健康状况核验<b class="green">未见异常(绿码)</b></h4>
+				<h4 style="display:none;" id="noP">健康状况核验<b class="red">存在异常(橙码)</b> <b onclick="ckyy()" style="color: #02A7F0;">查看原因</b></h4>
+				<div style="display:none;" class="jcxx hsjcjg"></div>
+				<div class="time" id="otime"></div>
+				<div class="wem">
+					<div id="newQrcode" style="width: 100%; height: 100%;"></div>
+				</div>
+				<h3 id="randCode"></h3>
+				<a onclick="addDesktop()" class="btn">创建桌面快捷方式</a>
+			</div>
+			<div class="kstd tm10">
+				<a id="qhjkm" style="color: #999">家人健康码</a>
+				<a onclick="openWyzx()">在线咨询</a>
+				<a onclick="openWyts()">人工客服</a>
+			</div>
+		</div>
+		<!-- 服务 -->
+		<div class="eui-homeCard">
+			<!-- 信息说明 -->
+			<div class="eui-title"><b>信息说明</b></div>
+			<ul class="xxsm eui-display-table">
+				 <li class="tr"><span class="th">· 数据来源：</span><span class="td">国家政务服务平台和福建省相关部门。</span></li>
+                 <li class="tr"><span class="th">· 注意事项：</span><span class="td">使用健康码时不要离开本页面且需本人操作确认。</span></li>
+                 <li class="tr"><span class="th">· 使用范围：</span><span class="td">依托国家政务服务平台，实现跨省（区、市）数据共享和互通互认。</span></li>
+			</ul>
+		</div>
+		<div class="eui-homeFoot">
+			<p>客服电话：0591-62623959 / 8:00-12:00  14:00-18:00</p>
+			<p>本应用由福建省数字办 卫健委  医保局主办  福建省经济信息中心承办</p>
+		</div>
+		
+		<!-- 保存用户登录信息 -->
+		<form id="myform1">
+			<input type="hidden" name="userId" id="userId" value="" />
+			<input type="hidden" name="userToken" id="userToken" value="" />
+			<input type="hidden" name="dbId" id="dbId" value="" />
+			<input type="hidden" name="type" id="type" value="" />
+			<input type="hidden" name="ETFJ_ID" id="ETFJ_ID" value="" />
+			<input type="hidden" name="ETFJ_ISGETDATA" id="ETFJ_ISGETDATA" value="" />
+			<input type="hidden" name="CODETIMES_SFBM" id="CODETIMES_SFBM" value="" />
+			<input type="hidden" name="CODETIMES_CSBM" id="CODETIMES_CSBM" value="" />
+			<input type="hidden" name="CODETIMES_QXBM" id="CODETIMES_QXBM" value="" />
+			<input type="hidden" name="CODETIMES_LGT" id="CODETIMES_LGT" value="" />
+			<input type="hidden" name="CODETIMES_LNG" id="CODETIMES_LNG" value="" />
+		</form>
+	</div>
+	<!-- 拉码工具js -->
+	<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/qrcode.js?lxhcVersion=1.0"></script>
+	<script type="text/javascript" src="https://cdn1.foundertype.com/ufont/js/bundle.js"></script>
+	<!-- 首页功能单独整理 -->
+	<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/js/xf/fz.js?lxhcVersion=1.0"></script>
+	<script src="https://mztapp.fujian.gov.cn:8200/fjyqhm/app/bmjkm/js/index.js?lxhcVersion=1.0"></script>
+	<script>
+		mui.init({
+        	swipeBack: true //启用右滑关闭功能
+    	});
+		
+		//二维码刷新时间
+		var s = 1800;
+		//链接参数
+		var getFzspzUrl = "https://mztapp.fujian.gov.cn:8200/fjyqhm/bmjkm/getFzspz?csrfToken=dc2f92522bb443ba881dfbd67f2639df";
+		var getFjEwmUrl = "https://mztapp.fujian.gov.cn:8200/fjyqhm/bmjkm/getFjEwm?csrfToken=dc2f92522bb443ba881dfbd67f2639df";
+		var getSftbUrl = "https://mztapp.fujian.gov.cn:8200/fjyqhm/bmjkm/getSftb?csrfToken=dc2f92522bb443ba881dfbd67f2639df";
+		var qhjkmUrl = "https://mztapp.fujian.gov.cn:8200/fjyqhm/app/bmjkm/qhjkm.jsp";
+		var xxtbUrl = "https://mztapp.fujian.gov.cn:8200/fjyqhm/app/bmjkm/xxtb.jsp";
+		var jkbgUrl = "https://mztapp.fujian.gov.cn:8200/fjyqhm/app/bmjkm/jkbg.jsp";
+		var ckyyUrl = "https://mztapp.fujian.gov.cn:8200/fjyqhm/app/bmjkm/ckyy.jsp";
+		//是否判断
+		var sfsn = "1";			//是否省内
+		var isdb = "0";			//是否代办过
+		//保存用户信息
+		var enName = "", enIdcard = "", deName = "", deIdcard = "", ycyy = "";
+		//缓存名称
+		var sftbhc = "sftb_", ewmInfohc = "ewmInfo_", sfdbhc = "sfdb1_", cmtshc = "bm_cmts_";
+	
+		mui.init({
+			swipeBack:false //启用右滑关闭功能
+		});		
+		//解决IOS返回不刷新页面问题
+		var browserRule = /^.*((iPhone)|(iPad)|(Safari))+.*$/;
+		if (browserRule.test(navigator.userAgent)) {
+		     window.onpageshow = function(event) {
+		           if (event.persisted) {
+		                 window.location.reload()
+		           }
+		     };
+		}
+		function init() {		
+			$("#userId").val(userId);
+			$("#userToken").val(userToken);
+			$("#CODETIMES_QXBM").val(countyCode);
+			$("#CODETIMES_CSBM").val(cityCode);
+			$("#CODETIMES_SFBM").val(sfCode);
+			$("#CODETIMES_LGT").val(longitude);
+			$("#CODETIMES_LNG").val(latitude);
+			
+			var paras = location.search;			//search获得地址中的参数，内容为'?itemId=12'
+			paras = decodeURIComponent(paras);
+			var result = paras.match(/[^\?&]*=[^&]*/g); 	//match是字符串中符合的字段一个一个取出来，result中的值为['login=xx','table=admin']
+			paras = {};					//让paras变成没有内容的json对象
+			for(i in result){
+				var temp = result[i].split('=');	//split()将一个字符串分解成一个数组,两次遍历result中的值分别为['itemId','xx']
+				paras[temp[0]] = temp[1];
+			}
+			//设置当前需要查询的接口
+			if(paras.dbId != undefined && paras.dbId != "undefined" && paras.dbId != null && paras.dbId != ""){
+				$("#dbId").val(paras.dbId);
+				$("#type").val("1");
+				//getFjEwm();
+				sftbhc += paras.dbId;
+				ewmInfohc += paras.dbId;
+				sfdbhc += userId;
+				cmtshc += paras.dbId;
+				$("#jkbg span").html("健康报告<br>（家人）");
+				$("#sys span").html("扫张贴码<br>（家人）");
+			}else{
+				$("#type").val("0");
+			  	sftbhc += userId;
+				ewmInfohc += userId;
+				sfdbhc += userId;
+				cmtshc += userId;
+			}			
+			getSftb();
+		}
+		
+	</script>
+</body>
+</html>
