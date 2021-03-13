@@ -16,7 +16,6 @@ host, shark.dianping.com, reject
 host, mapi.dianping.com, reject
 host, medusa.dianping.com, reject
 host, mop.meituan.com, reject
-host, ocsp.apple.com, reject
 host, aop.meituan.com, reject
 host, flowplus.meituan.net, reject
 host, www.qchannel01.cn, reject
