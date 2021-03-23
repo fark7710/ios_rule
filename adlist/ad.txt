@@ -5732,7 +5732,6 @@ host-keyword, res.mi.baidu.com, reject
 host-keyword, river.zhidao.baidu.com, reject
 host-keyword, rj.baidu.com, reject
 host-keyword, rp.baidu.com, reject
-host-keyword, s.baidu.com, reject
 host-keyword, sestat.baidu.com, reject
 host-keyword, shadu.baidu.com, reject
 host-keyword, sobar.baidu.com, reject
